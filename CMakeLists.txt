@@ -6,20 +6,11 @@ set(CMAKE_CXX_STANDARD 20)
 add_subdirectory(external/frozen)
 add_subdirectory(external/compile-time-regular-expressions)
 
-find_package(LLVM REQUIRED)
+add_subdirectory(lib)
 
-set(SOURCES main.cpp
-        src/AsmFile.cpp
-        src/AST.cpp
-        src/SymbolTable.cpp
-        src/Instructions/A_Type.cpp
-        src/Instructions/L_Type.cpp
-        src/Instructions/C_Type.cpp
-        )
 
-add_executable(hack_to_cpp ${SOURCES})
-target_include_directories(hack_to_cpp
-        PRIVATE src
-        PUBLIC include
-        )
-target_link_libraries(hack_to_cpp frozen ctre llvm)
+option(BUILD_EXAMPLES "Build examples" OFF)
+
+if (BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif ()
