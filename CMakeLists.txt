@@ -3,7 +3,8 @@ project(hack_to_cpp)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_subdirectory(external)
+add_subdirectory(external/frozen)
+add_subdirectory(external/compile-time-regular-expressions)
 
 find_package(LLVM REQUIRED)
 
