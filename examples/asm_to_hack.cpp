@@ -13,7 +13,7 @@ using namespace hackasm;
 
 int main() {
 
-    std::ifstream file("../../examples/Pong.asm", std::ios::in);
+    std::ifstream file("../../examples/Add.asm", std::ios::in);
     if (!file) {
         std::cerr << "Failed to open file.";
         return -1;
@@ -21,12 +21,12 @@ int main() {
 
     AST ast{AsmFile(file)};
     auto output = ast.to_binary();
-    std::ofstream outfile("Pong.hack", std::ios::out);
+    std::ofstream outfile("Add.hack", std::ios::out);
     for (const auto &line : output) {
         outfile << line << '\n';
     }
 
-    std::ofstream listfile("Pong.list", std::ios::out);
+    std::ofstream listfile("Add.list", std::ios::out);
     listfile << ast;
 
     return 0;
