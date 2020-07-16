@@ -33,7 +33,7 @@ namespace hackasm {
     }
 
     std::string A_Type::to_binary_format() const {
-        assert(s.value > 0 && s.value < 32768);
+        assert(s.value >= 0 && s.value < 32768);
         std::bitset<16> bits(s.value);
         return bits.to_string();
     }

@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 add_subdirectory(external/frozen)
 add_subdirectory(external/compile-time-regular-expressions)
 
-add_subdirectory(lib)
+add_subdirectory(lib) #Adds target: hack_assembler
 
 
 option(BUILD_EXAMPLES "Build examples" ON)

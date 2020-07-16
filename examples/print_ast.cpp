@@ -7,14 +7,13 @@
 
 using namespace hackasm;
 
-int main(int argc, char **argv) {
+int main() {
 
-    if (argc != 2) {
-        std::cout << "Usage: disassembler.exe [filename.asm]\n";
+    std::ifstream file("../../examples/Add.asm", std::ios::in);
+    if (!file) {
+        std::cerr << "Failed to open file.";
         return -1;
     }
-
-    std::ifstream file(argv[1], std::ios::in);
 
     AST ast{AsmFile(file)};
     std::cout << ast;

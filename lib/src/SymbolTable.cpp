@@ -38,7 +38,7 @@ namespace hackasm {
         predefined.insert({"KBD", 0x6000});
 
         //R0 - R15
-        for (int i = 0; i < 0x0F; i++) {
+        for (int i = 0; i < 16; i++) {
             predefined.insert({"R" + std::to_string(i), i});
         }
     }
@@ -82,12 +82,18 @@ namespace hackasm {
         //Is it an integer constant?
         if (ctre::match<R"(\d+)">(s.label)) {
             s.value = std::stoi(s.label);
-        } else if (predefined.find(s.label) != predefined.end()) {
+            return;
+        }
+        if (predefined.find(s.label) != predefined.end()) {
             s.value = predefined.at(s.label);
-        } else if (labels.find(s.label) != labels.end()) {
+            return;
+        }
+        if (labels.find(s.label) != labels.end()) {
             s.inst_loc = labels.at(s.label);
             s.value = labels.at(s.label);
-        } else if (symbols.find(s.label) != symbols.end()) {
+            return;
+        }
+        if (symbols.find(s.label) != symbols.end()) {
             s.value = symbols.at(s.label);
         } else {
             //it's unknown, insert it as an automatic symbol

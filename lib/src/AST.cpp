@@ -70,4 +70,17 @@ namespace hackasm {
         os << obj.symbols;
         return os;
     }
+
+    std::vector<std::string> AST::to_binary() const {
+        std::vector<std::string> output{};
+        for (const auto &i : listing) {
+            std::visit([&](auto inst) {
+                std::string bin = inst.to_binary_format();
+                if (bin.size() > 0) {
+                    output.push_back(inst.to_binary_format());
+                }
+            }, i);
+        }
+        return output;
+    }
 }
