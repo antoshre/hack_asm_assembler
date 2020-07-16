@@ -25,4 +25,9 @@ namespace hackasm {
         os << "L(" << obj.s << ")";
         return os;
     }
+
+    std::string L_Type::to_binary_format() const {
+        //L-Types are not represented in the binary format
+        return "";
+    }
 }

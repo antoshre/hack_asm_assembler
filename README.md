@@ -5,5 +5,3 @@ Hack is a toy assembly language created for the [nand2tetris](https://www.nand2t
 This project is based on Project 6 of that course.
 
 Assemblers Hack .asm files into an AST suitable for consumption by another process.
-
-Doesn't yet convert into the "binary" Hack format, but it's trivial given the AST.

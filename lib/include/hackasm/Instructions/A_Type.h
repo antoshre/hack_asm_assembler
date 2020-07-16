@@ -7,6 +7,7 @@
 
 #include "hackasm/Instructions/Symbol.h"
 
+#include <string>
 #include <iosfwd>
 
 
@@ -20,10 +21,13 @@ namespace hackasm {
      * The value can be an integer constant or a symbol
      */
     struct A_Type {
+
         Symbol s;
 
         //Construct an A-Type from the given line
         explicit A_Type(const AsmLine &);
+
+        [[nodiscard]] std::string to_binary_format() const;
 
         //Identify if the given line contains an A-Type
         //Does NOT verify if the symbol is valid

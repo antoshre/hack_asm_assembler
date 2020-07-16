@@ -24,7 +24,7 @@ std::vector<std::string> fake_atypes = {
         "(ball.move$if_false0)",
 };
 
-TEST(ATypeIdentify, Positive) {
+TEST(AType, PositiveIdentify) {
     //Should identify every string as an A-Type
     for (const auto &str : real_atypes) {
         //construct fake AsmLine.  The values for line and inst loc don't matter
@@ -33,7 +33,7 @@ TEST(ATypeIdentify, Positive) {
     }
 }
 
-TEST(ATypeIdentify, Negative) {
+TEST(AType, NegativeIdentify) {
     //Should identify every string as an A-Type
     for (const auto &str : fake_atypes) {
         //construct fake AsmLine.  The values for line and inst loc don't matter for identification
@@ -41,3 +41,20 @@ TEST(ATypeIdentify, Negative) {
         EXPECT_FALSE(hackasm::A_Type::identify(asml)) << "Line: " << asml.inst;
     }
 }
+
+TEST(AType, ToBinary) {
+    //Create dummy line to populate instruction
+    hackasm::AsmLine line(-1, -1, "@100");
+    hackasm::A_Type inst(line);
+    //Fix symbol to have dummy values for testing
+    inst.s.value = 42;
+    EXPECT_EQ("0000000000101010", inst.to_binary_format());
+    inst.s.value = 21845;
+    EXPECT_EQ("0101010101010101", inst.to_binary_format());
+    inst.s.value = 32767;
+    EXPECT_EQ("0111111111111111", inst.to_binary_format());
+}
+
+class Foo {
+    FRIEND_TEST(AType, ToBinary);
+};

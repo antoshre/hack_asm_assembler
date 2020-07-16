@@ -7,6 +7,7 @@
 
 #include "hackasm/Instructions/Symbol.h"
 
+#include <string>
 #include <iosfwd>
 
 namespace hackasm {
@@ -17,6 +18,8 @@ namespace hackasm {
         Symbol s;
 
         explicit L_Type(const AsmLine &);
+
+        [[nodiscard]] std::string to_binary_format() const;
 
         static bool identify(const AsmLine &);
 
