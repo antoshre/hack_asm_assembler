@@ -1,0 +1,6 @@
+[submodule "external/frozen"]
+	path = external/frozen
+	url = https://github.com/serge-sans-paille/frozen
+[submodule "external/compile-time-regular-expressions"]
+	path = external/compile-time-regular-expressions
+	url = https://github.com/hanickadot/compile-time-regular-expressions
