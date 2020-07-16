@@ -8,9 +8,9 @@
 #include <iosfwd>
 #include <vector>
 
-#include "Instruction.h"
-#include "AsmFile.h"
-#include "SymbolTable.h"
+#include "hackasm/Instruction.h"
+#include "hackasm/AsmFile.h"
+#include "hackasm/SymbolTable.h"
 
 namespace hackasm {
     class AST {

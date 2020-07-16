@@ -2,12 +2,12 @@
 // Created by rob on 7/16/2020.
 //
 
-#include "Instructions/A_Type.h"
-#include "Instructions/Symbol.h"
-#include "AsmLine.h"
+#include "hackasm/Instructions/A_Type.h"
+#include "hackasm/Instructions/Symbol.h"
+#include "hackasm/AsmLine.h"
 
 #include "gtest/gtest.h"
-#include "string_utils.h"
+#include "hackasm/string_utils.h"
 
 //access string_view ""sv operator
 using namespace std::literals;
@@ -21,7 +21,7 @@ std::vector<std::string> fake_atypes = {
         "0;JMP",
         "AM=M-1",
         "(RET_ADDRESS_LT5)",
-        "(ball.move$if_false0)"
+        "(ball.move$if_false0)",
 };
 
 TEST(ATypeIdentify, Positive) {
@@ -29,15 +29,15 @@ TEST(ATypeIdentify, Positive) {
     for (const auto &str : real_atypes) {
         //construct fake AsmLine.  The values for line and inst loc don't matter
         hackasm::AsmLine asml(-1, -1, str);
-        EXPECT_TRUE(hackasm::A_Type::identify(asml));
+        EXPECT_TRUE(hackasm::A_Type::identify(asml)) << "Line: " << asml.inst;
     }
 }
 
 TEST(ATypeIdentify, Negative) {
     //Should identify every string as an A-Type
     for (const auto &str : fake_atypes) {
-        //construct fake AsmLine.  The values for line and inst loc don't matter
+        //construct fake AsmLine.  The values for line and inst loc don't matter for identification
         hackasm::AsmLine asml(-1, -1, str);
-        EXPECT_FALSE(hackasm::A_Type::identify(asml));
+        EXPECT_FALSE(hackasm::A_Type::identify(asml)) << "Line: " << asml.inst;
     }
 }

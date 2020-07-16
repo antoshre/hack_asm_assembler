@@ -5,7 +5,7 @@
 #ifndef HACK_TO_CPP_ASMFILE_H
 #define HACK_TO_CPP_ASMFILE_H
 
-#include "AsmLine.h"
+#include "hackasm/AsmLine.h"
 
 #include <vector>
 #include <string>

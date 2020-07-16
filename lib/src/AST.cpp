@@ -2,10 +2,10 @@
 // Created by rob on 7/14/2020.
 //
 
-#include "AST.h"
+#include "hackasm/AST.h"
 
-#include "Instructions/Symbol.h"
-#include "SymbolTable.h"
+#include "hackasm/Instructions/Symbol.h"
+#include "hackasm/SymbolTable.h"
 
 #include <utility>
 #include <iostream>

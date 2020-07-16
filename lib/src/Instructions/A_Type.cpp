@@ -2,9 +2,9 @@
 // Created by rob on 7/15/2020.
 //
 
-#include "Instructions/A_Type.h"
-#include "AsmLine.h"
-#include "AsmLine.h"
+#include "hackasm/Instructions/A_Type.h"
+#include "hackasm/AsmLine.h"
+#include "hackasm/AsmLine.h"
 #include "ctre.hpp"
 
 namespace hackasm {

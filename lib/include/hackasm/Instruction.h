@@ -6,10 +6,10 @@
 #define HACK_TO_CPP_INSTRUCTION_H
 
 #include <variant>
-#include "Instructions/A_Type.h"
-#include "Instructions/L_Type.h"
-#include "Instructions/C_Type.h"
-#include "Instructions/Symbol.h"
+#include "hackasm/Instructions/A_Type.h"
+#include "hackasm/Instructions/L_Type.h"
+#include "hackasm/Instructions/C_Type.h"
+#include "hackasm/Instructions/Symbol.h"
 
 namespace hackasm {
     using Instruction = std::variant<A_Type, L_Type, C_Type>;

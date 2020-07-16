@@ -2,13 +2,13 @@
 // Created by rob on 7/14/2020.
 //
 
-#include "SymbolTable.h"
+#include "hackasm/SymbolTable.h"
 
-#include "Instructions/A_Type.h"
-#include "Instructions/L_Type.h"
-#include "Instructions/C_Type.h"
-#include "Instructions/Symbol.h"
-#include "Instruction.h"
+#include "hackasm/Instructions/A_Type.h"
+#include "hackasm/Instructions/L_Type.h"
+#include "hackasm/Instructions/C_Type.h"
+#include "hackasm/Instructions/Symbol.h"
+#include "hackasm/Instruction.h"
 
 #include <iostream>
 #include <variant>

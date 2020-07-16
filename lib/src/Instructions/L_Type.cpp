@@ -2,8 +2,8 @@
 // Created by rob on 7/15/2020.
 //
 
-#include "Instructions/L_Type.h"
-#include "AsmLine.h"
+#include "hackasm/Instructions/L_Type.h"
+#include "hackasm/AsmLine.h"
 
 #include "ctre.hpp"
 

@@ -2,9 +2,9 @@
 // Created by rob on 7/14/2020.
 //
 
-#include "AsmFile.h"
-#include "Instructions/L_Type.h"
-#include "string_utils.h"
+#include "hackasm/AsmFile.h"
+#include "hackasm/Instructions/L_Type.h"
+#include "hackasm/string_utils.h"
 
 #include <iterator>
 #include <fstream>

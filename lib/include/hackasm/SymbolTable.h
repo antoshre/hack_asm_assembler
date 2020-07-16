@@ -5,7 +5,7 @@
 #ifndef HACK_TO_CPP_SYMBOLTABLE_H
 #define HACK_TO_CPP_SYMBOLTABLE_H
 
-#include "Instruction.h"
+#include "hackasm/Instruction.h"
 
 #include <unordered_map>
 #include <iosfwd>

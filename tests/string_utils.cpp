@@ -5,7 +5,7 @@
 #include <string_view>
 
 #include "gtest/gtest.h"
-#include "string_utils.h"
+#include "hackasm/string_utils.h"
 
 using namespace std::literals;
 

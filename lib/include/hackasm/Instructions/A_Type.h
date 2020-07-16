@@ -5,7 +5,7 @@
 #ifndef HACK_TO_CPP_A_TYPE_H
 #define HACK_TO_CPP_A_TYPE_H
 
-#include "Instructions/Symbol.h"
+#include "hackasm/Instructions/Symbol.h"
 
 #include <iosfwd>
 

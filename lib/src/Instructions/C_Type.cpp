@@ -2,8 +2,8 @@
 // Created by rob on 7/15/2020.
 //
 
-#include "Instructions/C_Type.h"
-#include "AsmLine.h"
+#include "hackasm/Instructions/C_Type.h"
+#include "hackasm/AsmLine.h"
 #include "ctre.hpp"
 
 namespace hackasm {
