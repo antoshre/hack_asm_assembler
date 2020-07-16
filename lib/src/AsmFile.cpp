@@ -31,9 +31,9 @@ namespace hackasm {
         //Fun with Boost ranges!
         auto ins = source |
                    adaptors::indexed() | //add source line numbers
-                   //remove comments, trim excess whitespace
+                   //remove comments, trim_inplace excess whitespace
                    adaptors::transformed([](auto e) {
-                       trim(e.value());
+                       trim_inplace(e.value());
                        decomment(e.value());
                        return e;
                    }) |

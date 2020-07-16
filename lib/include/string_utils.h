@@ -33,7 +33,7 @@ inline std::string_view decomment(std::string_view sv) {
 }
 
 //Trim string in-place
-inline void trim(std::string &s) {
+inline void trim_inplace(std::string &s) {
     auto start = std::find_if(s.begin(), s.end(), [](const char c) { return !isspace(c); });
     s.erase(s.begin(), start);
     auto end = std::find_if(s.rbegin(), s.rend(), [](const char c) { return !isspace(c); }).base();

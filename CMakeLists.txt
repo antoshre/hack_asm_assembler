@@ -9,8 +9,15 @@ add_subdirectory(external/compile-time-regular-expressions)
 add_subdirectory(lib)
 
 
-option(BUILD_EXAMPLES "Build examples" OFF)
+option(BUILD_EXAMPLES "Build examples" ON)
 
 if (BUILD_EXAMPLES)
     add_subdirectory(examples)
+endif ()
+
+option(BUILD_TESTS "Build tests" ON)
+
+if (BUILD_TESTS)
+    add_subdirectory(external/googletest)
+    add_subdirectory(tests)
 endif ()
