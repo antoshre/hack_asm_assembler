@@ -14,13 +14,16 @@ inline std::string_view trim_left(std::string_view sv) {
     //"      herp  " -> "herp  "
     auto start = std::find_if(sv.begin(), sv.end(), [](const char c) { return !isspace(c); });
     auto end = sv.end();
-    return {start, end};
+    auto len = std::distance(start, end);
+    //TODO: There must be a clearer way to do this.
+    return {start, static_cast<std::string_view::size_type>(len)};
 }
 
 inline std::string_view trim_right(std::string_view sv) {
     //Trim whitespace off of right side of sv
     auto end = std::find_if(sv.rbegin(), sv.rend(), [](const char c) { return !isspace(c); }).base();
-    return {sv.begin(), end};
+    auto len = std::distance(sv.begin(), end);
+    return {sv.begin(), static_cast<std::string_view::size_type>(len)};
 }
 
 inline std::string_view trim(std::string_view sv) {

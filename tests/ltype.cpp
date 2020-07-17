@@ -19,7 +19,7 @@ TEST(LTypeIdentify, Positive) {
     //Should identify every string as an L-Type
     for (const auto &str : real_ltypes) {
         //construct fake AsmLine.  The values for line and inst loc don't matter for identification
-        hackasm::AsmLine asml(-1, -1, str);
+        hackasm::AsmLine asml{-1, -1, str};
         EXPECT_TRUE(hackasm::L_Type::identify(asml)) << "Line: " << asml.inst;
     }
 }

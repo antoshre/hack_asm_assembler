@@ -11,7 +11,7 @@
 
 TEST(CType, ToBinary) {
     //Create dummy line to populate instruction
-    hackasm::AsmLine line(-1, -1, "D=1");
+    hackasm::AsmLine line{-1, -1, "D=1"};
     hackasm::C_Type inst(line);
     //Fix symbol to have dummy values for testing
     inst.dest_mnemonic = "D";

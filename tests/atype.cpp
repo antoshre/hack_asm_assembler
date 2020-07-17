@@ -28,7 +28,7 @@ TEST(AType, PositiveIdentify) {
     //Should identify every string as an A-Type
     for (const auto &str : real_atypes) {
         //construct fake AsmLine.  The values for line and inst loc don't matter
-        hackasm::AsmLine asml(-1, -1, str);
+        hackasm::AsmLine asml{-1, -1, str};
         EXPECT_TRUE(hackasm::A_Type::identify(asml)) << "Line: " << asml.inst;
     }
 }
@@ -37,14 +37,14 @@ TEST(AType, NegativeIdentify) {
     //Should identify every string as an A-Type
     for (const auto &str : fake_atypes) {
         //construct fake AsmLine.  The values for line and inst loc don't matter for identification
-        hackasm::AsmLine asml(-1, -1, str);
+        hackasm::AsmLine asml{-1, -1, str};
         EXPECT_FALSE(hackasm::A_Type::identify(asml)) << "Line: " << asml.inst;
     }
 }
 
 TEST(AType, ToBinary) {
     //Create dummy line to populate instruction
-    hackasm::AsmLine line(-1, -1, "@100");
+    hackasm::AsmLine line{-1, -1, "@100"};
     hackasm::A_Type inst(line);
     //Fix symbol to have dummy values for testing
     inst.s.value = 42;
