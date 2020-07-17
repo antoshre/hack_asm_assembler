@@ -13,7 +13,7 @@
 #include "hackasm/SymbolTable.h"
 
 namespace hackasm {
-    class AST {
+    struct AST {
         AsmFile assembly;
         SymbolTable symbols;
 
