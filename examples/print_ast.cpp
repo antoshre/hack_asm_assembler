@@ -2,8 +2,8 @@
 #include <istream>
 #include <fstream>
 
-#include "hackasm\AsmFile.h"
-#include "hackasm\AST.h"
+#include "hackasm/AsmFile.h"
+#include "hackasm/AST.h"
 
 using namespace hackasm;
 
