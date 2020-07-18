@@ -83,4 +83,16 @@ namespace hackasm {
         }
         return output;
     }
+
+    const std::vector<Instruction> &AST::get_listing() const {
+        return std::as_const(listing);
+    }
+
+    const SymbolTable &AST::get_symbol_table() const {
+        return std::as_const(symbols);
+    }
+
+    const AsmFile &AST::get_asmfile() const {
+        return std::as_const(assembly);
+    }
 }

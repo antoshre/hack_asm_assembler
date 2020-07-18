@@ -9,16 +9,19 @@
 #include <algorithm>
 #include <iterator>
 
+//Common substring operations on string_view
+
+//Trim whitespace from left of sv
 inline std::string_view trim_left(std::string_view sv) {
     //Trim whitespace off of left side of sv.
     //"      herp  " -> "herp  "
     auto start = std::find_if(sv.begin(), sv.end(), [](const char c) { return !isspace(c); });
-    auto end = sv.end();
-    auto len = std::distance(start, end);
+    auto len = std::distance(start, sv.end());
     //TODO: There must be a clearer way to do this.
     return {start, static_cast<std::string_view::size_type>(len)};
 }
 
+//Trim whitespace from right of sv
 inline std::string_view trim_right(std::string_view sv) {
     //Trim whitespace off of right side of sv
     auto end = std::find_if(sv.rbegin(), sv.rend(), [](const char c) { return !isspace(c); }).base();
@@ -26,10 +29,12 @@ inline std::string_view trim_right(std::string_view sv) {
     return {sv.begin(), static_cast<std::string_view::size_type>(len)};
 }
 
+//Trim whitespace from both sides of sv
 inline std::string_view trim(std::string_view sv) {
     return trim_left(trim_right(sv));
 }
 
+//Remove C++ "//..." style comments from sv
 inline std::string_view decomment(std::string_view sv) {
     auto pos = sv.find_first_of("//");
     return sv.substr(0, pos);
@@ -43,6 +48,7 @@ inline void trim_inplace(std::string &s) {
     s.erase(end, s.end());
 }
 
+//Comment string in-place
 inline void decomment(std::string &s) {
     auto pos = s.find_first_of("//");
     //TODO: is this if really necessary?

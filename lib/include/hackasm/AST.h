@@ -22,6 +22,12 @@ namespace hackasm {
     public:
         explicit AST(AsmFile);
 
+        [[nodiscard]] const AsmFile &get_asmfile() const;
+
+        [[nodiscard]] const SymbolTable &get_symbol_table() const;
+
+        [[nodiscard]] const std::vector<Instruction> &get_listing() const;
+
         [[nodiscard]] std::vector<std::string> to_binary() const;
 
         friend std::ostream &operator<<(std::ostream &, const AST &);
