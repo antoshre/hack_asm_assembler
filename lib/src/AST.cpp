@@ -11,12 +11,12 @@
 #include <iostream>
 #include <variant>
 
-#include <boost/range/adaptor/indexed.hpp>
-#include <boost/range/algorithm.hpp>
-#include <boost/range/adaptors.hpp>
+#include <ranges>
+#include <algorithm>
+
 #include <ctre.hpp>
 
-using namespace boost;
+using namespace std::views;
 
 namespace hackasm {
 
@@ -38,9 +38,11 @@ namespace hackasm {
     AST::AST(AsmFile f) : assembly(std::move(f)) {
         //TODO: switch to std::ranges
         //Parse assembly source to instructions
-        auto insts = assembly.instructions | adaptors::transformed([](AsmLine &a) { return parse(a); });
-        boost::copy(insts, std::back_inserter(listing));
+        auto insts = assembly.instructions | transform([](AsmLine &a) { return parse(a); });
+        std::ranges::copy(insts, std::back_inserter(listing));
+        //boost::copy(insts, std::back_inserter(listing));
 
+        /*
         //First pass: extract all labels
         auto labels = listing |
                       //select only L-Type instructions
@@ -49,23 +51,39 @@ namespace hackasm {
                       adaptors::transformed([](Instruction &i) { return std::get<L_Type>(i); }) |
                       //extract symbol from L-Type
                       adaptors::transformed([](const L_Type &l) { return l.s; });
-
         boost::for_each(labels, [&](const Symbol &s) {
             this->symbols.insert_label(s);
-        });
-
+        })
         //Second pass: reify all instructions
         //TODO: change to reifying symbols instead.  Extract symbols in range op
         boost::for_each(listing, [&](Instruction &i) {
             symbols.reify(i);
         });
+        */
+
+        auto labels = listing |
+                      filter([](const Instruction &i) { return std::holds_alternative<L_Type>(i); }) |
+                      transform([](const Instruction &i) { return std::get<L_Type>(i); }) |
+                      transform([](const L_Type &l) { return l.s; });
+        for (const Symbol &s : labels) {
+            symbols.insert_label(s);
+        }
+        for (auto &i : listing) {
+            symbols.reify(i);
+        }
+
     }
 
     std::ostream &operator<<(std::ostream &os, const AST &obj) {
         os << "AST:\n";
+        /*
         boost::for_each(obj.listing, [&](const Instruction &i) {
             std::visit([&](auto e) { os << e << '\n'; }, i);
         });
+         */
+        for (const auto &i : obj.listing) {
+            std::visit([&](auto e) { os << e << '\n'; }, i);
+        }
         os << "Symbol Table:\n";
         os << obj.symbols;
         return os;
