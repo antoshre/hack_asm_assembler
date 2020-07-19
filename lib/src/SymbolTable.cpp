@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <variant>
+#include <utility>
 
 #include "ctre.hpp"
 
@@ -102,5 +103,9 @@ namespace hackasm {
             //bump the offset for the next auto symbol
             auto_symbol_offset++;
         }
+    }
+
+    const std::unordered_map<std::string, int> SymbolTable::get_labels() const {
+        return std::as_const(labels);
     }
 }

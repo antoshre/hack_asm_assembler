@@ -38,6 +38,9 @@ namespace hackasm {
         //Fill out Instruction with information from the table
         void reify(Instruction &);
 
+        //access label map
+        const std::unordered_map<std::string, int> get_labels() const;
+
         friend std::ostream &operator<<(std::ostream &, const SymbolTable &);
     };
 }
