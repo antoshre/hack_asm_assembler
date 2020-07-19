@@ -1,32 +1,61 @@
 # hack_asm_assembler
-Hack assembly assembler
+Hack assembly assembler.
 
 Hack is a toy assembly language created for the [nand2tetris](https://www.nand2tetris.org/project06) course.
 This project is based on Project 6 of that course.
 
 Assemblers Hack .asm files into an AST suitable for consumption by another process.
 
-##Hack Assembly Example:
-`Add.asm` in `examples/`:
-```
-//Add R0 to R1 and store in R2
-@R0 //A=0
-D=M //D=M[0]
-@R1 //A=1
-A=M //A=M[1]
-D=D+A //D=M[0]+M[1]
-@R2 //A=2
-M=D //M[2]=D
-```
+Status: Functionally complete.  Correctly assembles all 28,375 lines of `examples/Pong.asm`.  Could use a good refactor.
 
-AST:
+## Installation
+
+Clone the repo, grab the submodules with `git submodule update --init --recursive`
+
+## Requirements 
+
+Requires C++20 for CTRE support.
+
+Requires any relatively recent version of Boost.  Will be dropped when I move to std::ranges.
+
+## Usage
+
+`examples\print_ast.cpp`:
+
+```
+std::ifstream file("Add.asm", std::ios::in);
+if (!file) {
+    std::cerr << "Failed to open file.";
+    return -1;
+}
+AST ast{AsmFile(file)};
+std::cout << ast;
+
+auto binary = ast.to_binary();
+for(const auto& line : binary) {
+    std::cout  << line << '\n';
+}
+```
+produces:
 ```
 AST:
-A(R0=0)
-C(D=M)
-A(R1=1)
-C(A=M)
-C(D=D+A)
-A(R2=2)
-C(M=D)
+    A(R0=0)
+    C(D=M)
+    A(R1=1)
+    C(A=M)
+    C(D=D+A)
+    A(R2=2)
+    C(M=D)
+
+Symbol Table:
+Labels:
+Symbols:
+
+0000000000000000
+1111110000010000
+0000000000000001
+1111110000100000
+1110000010010000
+0000000000000010
+1110001100001000
 ```

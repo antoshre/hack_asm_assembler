@@ -16,7 +16,12 @@ int main() {
     }
 
     AST ast{AsmFile(file)};
-    std::cout << ast;
+    std::cout << ast << '\n';
+
+    auto binary = ast.to_binary();
+    for (const auto &line : binary) {
+        std::cout << line << '\n';
+    }
 
     return 0;
 }
