@@ -22,6 +22,8 @@ namespace hackasm {
     }
 
     C_Type::C_Type(const AsmLine &l) {
+        inst_loc = l.inst_num;
+        line_loc = l.line_num;
         if (auto[m, d, c]=ctre::match<R"((\S+)=(\S+))">(l.inst); m) {
             dest_mnemonic = std::string(d.to_view());
             comp_mnemonic = std::string(c.to_view());

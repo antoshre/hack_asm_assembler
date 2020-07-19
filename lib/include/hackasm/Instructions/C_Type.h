@@ -20,6 +20,9 @@ namespace hackasm {
         std::string comp_mnemonic;
         std::string jump_mnemonic;
 
+        int line_loc; //line location in original source, zero-indexed
+        int inst_loc; //location in the instruction stream, zero-indexed
+
         explicit C_Type(const AsmLine &);
 
         [[nodiscard]] std::string to_binary_format() const;

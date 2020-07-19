@@ -7,6 +7,7 @@
 
 #include "hackasm/AsmFile.h"
 #include "hackasm/AST.h"
+#include "hackasm/string_utils.h"
 
 #include "gtest/gtest.h"
 
@@ -31,7 +32,7 @@ TEST(Add, Test) {
     auto gold = read_file("../../examples/Add.hack");
     ASSERT_TRUE(testee.size() == gold.size());
     for (int i = 0; i < gold.size(); i++) {
-        ASSERT_EQ(gold[i], testee[i]) << "Mismatch at line# " << i;
+        ASSERT_EQ(trim(gold[i]), trim(testee[i])) << "Mismatch at line# " << i;
     }
 }
 
@@ -40,7 +41,7 @@ TEST(PongL, Test) {
     auto gold = read_file("../../examples/PongL.hack");
     ASSERT_TRUE(testee.size() == gold.size());
     for (int i = 0; i < gold.size(); i++) {
-        ASSERT_EQ(gold[i], testee[i]) << "Mismatch at line# " << i;
+        ASSERT_EQ(trim(gold[i]), trim(testee[i])) << "Mismatch at line# " << i;
     }
 }
 
@@ -49,6 +50,6 @@ TEST(Pong, Test) {
     auto gold = read_file("../../examples/Pong.hack");
     ASSERT_EQ(testee.size(), gold.size());
     for (int i = 0; i < gold.size(); i++) {
-        ASSERT_EQ(gold[i], testee[i]) << "Mismatch at line# " << i;
+        ASSERT_EQ(trim(gold[i]), trim(testee[i])) << "Mismatch at line# " << i;
     }
 }
