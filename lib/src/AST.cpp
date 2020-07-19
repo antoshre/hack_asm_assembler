@@ -10,7 +10,6 @@
 #include <utility>
 #include <iostream>
 #include <variant>
-
 #include <ranges>
 #include <algorithm>
 
@@ -36,38 +35,24 @@ namespace hackasm {
     }
 
     AST::AST(AsmFile f) : assembly(std::move(f)) {
-        //TODO: switch to std::ranges
         //Parse assembly source to instructions
         auto insts = assembly.instructions | transform([](AsmLine &a) { return parse(a); });
         std::ranges::copy(insts, std::back_inserter(listing));
-        //boost::copy(insts, std::back_inserter(listing));
 
-        /*
-        //First pass: extract all labels
         auto labels = listing |
                       //select only L-Type instructions
-                      adaptors::filtered([](Instruction &i) { return std::holds_alternative<L_Type>(i); }) |
-                      //convert Instruction to L-Type
-                      adaptors::transformed([](Instruction &i) { return std::get<L_Type>(i); }) |
-                      //extract symbol from L-Type
-                      adaptors::transformed([](const L_Type &l) { return l.s; });
-        boost::for_each(labels, [&](const Symbol &s) {
-            this->symbols.insert_label(s);
-        })
-        //Second pass: reify all instructions
-        //TODO: change to reifying symbols instead.  Extract symbols in range op
-        boost::for_each(listing, [&](Instruction &i) {
-            symbols.reify(i);
-        });
-        */
-
-        auto labels = listing |
                       filter([](const Instruction &i) { return std::holds_alternative<L_Type>(i); }) |
+                      //convert Instruction to L-Type
                       transform([](const Instruction &i) { return std::get<L_Type>(i); }) |
+                      //extract symbol from L-Type
                       transform([](const L_Type &l) { return l.s; });
+        //Insert all found labels into the symbol table.
+        //This is a special operation.  Labels must be known to not get confused with symbols in the second pass.
         for (const Symbol &s : labels) {
             symbols.insert_label(s);
         }
+        //TODO: change to reifying symbols instead.  Extract symbols in range op
+        //Second pass: reify all instructions
         for (auto &i : listing) {
             symbols.reify(i);
         }
@@ -76,11 +61,6 @@ namespace hackasm {
 
     std::ostream &operator<<(std::ostream &os, const AST &obj) {
         os << "AST:\n";
-        /*
-        boost::for_each(obj.listing, [&](const Instruction &i) {
-            std::visit([&](auto e) { os << e << '\n'; }, i);
-        });
-         */
         for (const auto &i : obj.listing) {
             std::visit([&](auto e) { os << e << '\n'; }, i);
         }

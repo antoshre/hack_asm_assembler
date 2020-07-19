@@ -10,8 +10,6 @@ set(LIB_SOURCES
         src/Instructions/C_Type.cpp
         )
 
-find_package(Boost REQUIRED)
-
 add_library(hack_assembler ${LIB_SOURCES})
 
 if (NOT TARGET ctre)
@@ -21,6 +19,6 @@ if (NOT TARGET frozen)
     message(FATAL_ERROR "Frozen not found. Did the submodule get initialized?")
 endif ()
 
-target_link_libraries(hack_assembler PRIVATE frozen ctre Boost::headers)
+target_link_libraries(hack_assembler PRIVATE frozen ctre)
 target_include_directories(hack_assembler PRIVATE src
         PUBLIC include)
