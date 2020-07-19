@@ -57,10 +57,11 @@ namespace hackasm {
     }
 
     void SymbolTable::insert_label(const Symbol &s) {
-        if (predefined.find(s.label) == predefined.end()) {
+        std::string temp(s.label);
+        if (predefined.find(temp) == predefined.end()) {
             //TODO: verbosity setting
             //std::cout << "Label found: " << s.label << " @ " << s.inst_loc << '\n';
-            labels.insert({s.label, s.inst_loc});
+            labels.insert({temp, s.inst_loc});
         }
     }
 
@@ -82,30 +83,31 @@ namespace hackasm {
     void SymbolTable::reify(Symbol &s) {
         //Is it an integer constant?
         if (ctre::match<R"(\d+)">(s.label)) {
-            s.value = std::stoi(s.label);
+            s.value = std::stoi(std::string{s.label});
             return;
         }
-        if (predefined.find(s.label) != predefined.end()) {
-            s.value = predefined.at(s.label);
+        std::string temp(s.label);
+        if (predefined.find(temp) != predefined.end()) {
+            s.value = predefined.at(temp);
             return;
         }
-        if (labels.find(s.label) != labels.end()) {
-            s.inst_loc = labels.at(s.label);
-            s.value = labels.at(s.label);
+        if (labels.find(temp) != labels.end()) {
+            s.inst_loc = labels.at(temp);
+            s.value = labels.at(temp);
             return;
         }
-        if (symbols.find(s.label) != symbols.end()) {
-            s.value = symbols.at(s.label);
+        if (symbols.find(temp) != symbols.end()) {
+            s.value = symbols.at(temp);
         } else {
             //it's unknown, insert it as an automatic symbol
-            symbols.insert({s.label, auto_symbol_offset});
+            symbols.insert({temp, auto_symbol_offset});
             s.value = auto_symbol_offset;
             //bump the offset for the next auto symbol
             auto_symbol_offset++;
         }
     }
 
-    const std::unordered_map<std::string, int> SymbolTable::get_labels() const {
+    std::unordered_map<std::string, int> SymbolTable::get_labels() const {
         return std::as_const(labels);
     }
 }

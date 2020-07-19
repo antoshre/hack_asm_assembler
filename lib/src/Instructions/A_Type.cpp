@@ -15,7 +15,7 @@ namespace hackasm {
     A_Type::A_Type(const AsmLine &l) {
         //Match "@<non-whitespace>"
         if (auto[m, v]=ctre::match<R"(@(\S+))">(l.inst); m) {
-            Symbol _s(std::string(v.to_view()), l.line_num, l.inst_num);
+            Symbol _s(v.to_view(), l.line_num, l.inst_num);
             this->s = _s;
         } else {
             throw std::runtime_error("Cannot parse A-Type: " + l.inst);

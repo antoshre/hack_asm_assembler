@@ -25,15 +25,15 @@ namespace hackasm {
         inst_loc = l.inst_num;
         line_loc = l.line_num;
         if (auto[m, d, c]=ctre::match<R"((\S+)=(\S+))">(l.inst); m) {
-            dest_mnemonic = std::string(d.to_view());
-            comp_mnemonic = std::string(c.to_view());
+            dest_mnemonic = d;
+            comp_mnemonic = c;
             jump_mnemonic = "null";
             return;
         }
         if (auto[m, c, j]=ctre::match<R"((\S+);(\S+))">(l.inst); m) {
             dest_mnemonic = "null";
-            comp_mnemonic = std::string(c.to_view());
-            jump_mnemonic = std::string(j.to_view());
+            comp_mnemonic = c;
+            jump_mnemonic = j;
             return;
         }
 
@@ -52,7 +52,7 @@ namespace hackasm {
     }
 
     namespace detail {
-        uint16_t dest(const std::string &d) {
+        uint16_t dest(const std::string_view d) {
             constexpr frozen::unordered_map<frozen::string, int, 8> dmap = {
                     {"null", 0b0000000000000000},
                     {"M",    0b0000000000001000},
@@ -63,11 +63,11 @@ namespace hackasm {
                     {"AD",   0b0000000000110000},
                     {"AMD",  0b0000000000111000}
             };
-            const frozen::string f(d.c_str(), d.size());
+            const frozen::string f(d.data(), d.size());
             return dmap.at(f);
         }
 
-        uint16_t comp(const std::string &c) {
+        uint16_t comp(const std::string_view c) {
             constexpr frozen::unordered_map<frozen::string, int, 28> cmap = {
                     {"0",   0b0000101010000000},
                     {"1",   0b0000111111000000},
@@ -98,11 +98,11 @@ namespace hackasm {
                     {"D&M", 0b0001000000000000},
                     {"D|M", 0b0001010101000000}
             };
-            const frozen::string f{c.c_str(), c.size()};
+            const frozen::string f{c.data(), c.size()};
             return cmap.at(f);
         }
 
-        uint16_t jump(const std::string &j) {
+        uint16_t jump(const std::string_view j) {
             constexpr frozen::unordered_map<frozen::string, int, 8> jmap = {
                     {"null", 0b0000000000000000},
                     {"JGT",  0b0000000000000001},
@@ -113,7 +113,7 @@ namespace hackasm {
                     {"JLE",  0b0000000000000110},
                     {"JMP",  0b0000000000000111}
             };
-            const frozen::string f{j.c_str(), j.size()};
+            const frozen::string f{j.data(), j.size()};
             if (jmap.find(f) != jmap.end()) {
                 return jmap.at(f);
             } else {

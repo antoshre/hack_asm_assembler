@@ -39,7 +39,7 @@ namespace hackasm {
         void reify(Instruction &);
 
         //access label map
-        const std::unordered_map<std::string, int> get_labels() const;
+        std::unordered_map<std::string, int> get_labels() const;
 
         friend std::ostream &operator<<(std::ostream &, const SymbolTable &);
     };

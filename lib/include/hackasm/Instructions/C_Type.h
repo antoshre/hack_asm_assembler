@@ -16,9 +16,9 @@ namespace hackasm {
     class AsmLine;
 
     struct C_Type {
-        std::string dest_mnemonic;
-        std::string comp_mnemonic;
-        std::string jump_mnemonic;
+        std::string_view dest_mnemonic;
+        std::string_view comp_mnemonic;
+        std::string_view jump_mnemonic;
 
         int line_loc; //line location in original source, zero-indexed
         int inst_loc; //location in the instruction stream, zero-indexed

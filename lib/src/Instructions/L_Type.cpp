@@ -14,7 +14,7 @@ namespace hackasm {
 
     L_Type::L_Type(const AsmLine &l) {
         if (auto[m, v]=ctre::match<R"(\((\S+)\))">(l.inst); m) {
-            Symbol _s(std::string(v.to_view()), l.inst_num, l.line_num, l.inst_num);
+            Symbol _s(v, l.inst_num, l.line_num, l.inst_num);
             this->s = _s;
         } else {
             std::runtime_error("Cannot parse L-Type: " + l.inst);
