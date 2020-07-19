@@ -2,12 +2,10 @@
 // Created by rob on 7/16/2020.
 //
 
-#include "hackasm/Instructions/A_Type.h"
-#include "hackasm/Instructions/Symbol.h"
-#include "hackasm/AsmLine.h"
+#include "hackasm/hackasm.h"
+#include "hackasm/string_utils.h"
 
 #include "gtest/gtest.h"
-#include "hackasm/string_utils.h"
 
 //access string_view ""sv operator
 using namespace std::literals;

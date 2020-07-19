@@ -5,9 +5,7 @@
 #include <vector>
 #include <string>
 
-#include "hackasm/Instructions/L_Type.h"
-#include "hackasm/Instructions/Symbol.h"
-#include "hackasm/AsmLine.h"
+#include "hackasm/hackasm.h"
 
 #include "gtest/gtest.h"
 

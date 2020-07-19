@@ -5,8 +5,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "hackasm/AsmFile.h"
-#include "hackasm/AST.h"
+#include "hackasm/hackasm.h"
 #include "hackasm/string_utils.h"
 
 #include "gtest/gtest.h"

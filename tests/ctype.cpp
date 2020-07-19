@@ -2,12 +2,9 @@
 // Created by rob on 7/16/2020.
 //
 
-#include "hackasm/Instructions/C_Type.h"
-#include "hackasm/Instructions/Symbol.h"
-#include "hackasm/AsmLine.h"
+#include "hackasm/hackasm.h"
 
 #include "gtest/gtest.h"
-#include "hackasm/string_utils.h"
 
 TEST(CType, ToBinary) {
     //Create dummy line to populate instruction
