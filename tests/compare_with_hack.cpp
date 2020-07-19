@@ -28,11 +28,16 @@ std::vector<std::string> read_file(const std::string &filename) {
 }
 
 TEST(Add, Test) {
-    auto testee = asm_to_binary("../../examples/Add.asm");
+    auto dut = asm_to_binary("../../examples/Add.asm");
     auto gold = read_file("../../examples/Add.hack");
-    ASSERT_TRUE(testee.size() == gold.size());
+    //If the line count doesn't match, fail immedediately.  Iterating over will likely cause OOB-access
+    ASSERT_TRUE(dut.size() == gold.size());
+    //TODO: use std::ranges to get something like for(const auto& [line, comp] : zip(dut, gold))
     for (int i = 0; i < gold.size(); i++) {
-        ASSERT_EQ(trim(gold[i]), trim(testee[i])) << "Mismatch at line# " << i;
+        //Trimming required to handle impedance mismatch between system line endings.
+        //IE Windows "/r/n" endings leave the '/r' when run through std::getline
+        //TODO: handle this on the input end instead of in the test
+        ASSERT_EQ(trim(gold[i]), trim(dut[i])) << "Mismatch at line# " << i;
     }
 }
 
