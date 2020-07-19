@@ -16,8 +16,6 @@ Clone the repo, grab the submodules with `git submodule update --init --recursiv
 
 Requires C++20 for CTRE support.
 
-Requires any relatively recent version of Boost.  Will be dropped when I move to std::ranges.
-
 ## Usage
 
 `examples\print_ast.cpp`:
