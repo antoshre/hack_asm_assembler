@@ -132,4 +132,8 @@ namespace hackasm {
         }
         return os;
     }
+
+    const std::unordered_map<std::string, int> &SymbolTable::get_labels() const {
+        return std::as_const(labels);
+    }
 }

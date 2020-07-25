@@ -33,3 +33,4 @@
 
 #Exclude CLion project stuff
 .idea
+cmake-*

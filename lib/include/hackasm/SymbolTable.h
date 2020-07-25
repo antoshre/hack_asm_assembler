@@ -45,6 +45,8 @@ namespace hackasm {
         int operator[](std::string_view) const;
 
         friend std::ostream &operator<<(std::ostream &, const SymbolTable &);
+
+        const std::unordered_map<std::string, int>& get_labels() const;
     };
 }
 
