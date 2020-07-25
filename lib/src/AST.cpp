@@ -4,7 +4,6 @@
 
 #include "hackasm/AST.h"
 
-#include "hackasm/Instructions/Symbol.h"
 #include "hackasm/SymbolTable.h"
 
 #include <utility>
@@ -12,6 +11,7 @@
 #include <variant>
 #include <ranges>
 #include <algorithm>
+#include <iostream>
 
 #include <ctre.hpp>
 
@@ -30,11 +30,15 @@ namespace hackasm {
         if (C_Type::identify(s)) {
             return C_Type(s);
         }
+        if (B_Type::identify(s)) {
+            return B_Type(s);
+        }
 
         throw std::runtime_error("Cannot parse assembly line: " + s.inst);
     }
 
-    AST::AST(AsmFile f) : assembly(std::move(f)) {
+    //AST::AST(AsmFile f) : assembly(std::move(f)) {
+    AST::AST(std::istream& file) : assembly(file) {
         //Parse assembly source to instructions
         auto insts = assembly.instructions | transform([](AsmLine &a) { return parse(a); });
         std::ranges::copy(insts, std::back_inserter(listing));
@@ -45,24 +49,26 @@ namespace hackasm {
                       //convert Instruction to L-Type
                       transform([](const Instruction &i) { return std::get<L_Type>(i); }) |
                       //extract symbol from L-Type
-                      transform([](const L_Type &l) { return l.s; });
+                      transform([](const L_Type &l) { return std::make_pair(l.label, l.inst_loc); });
         //Insert all found labels into the symbol table.
         //This is a special operation.  Labels must be known to not get confused with symbols in the second pass.
-        for (const Symbol &s : labels) {
-            symbols.insert_label(s);
-        }
-        //TODO: change to reifying symbols instead.  Extract symbols in range op
-        //Second pass: reify all instructions
-        for (auto &i : listing) {
-            symbols.reify(i);
+        for (const auto [sv, i] : labels) {
+            symbols.insert_label(sv, i);
         }
 
+        auto syms = listing |
+                    filter([](const Instruction &i) { return std::holds_alternative<A_Type>(i); }) |
+                    transform([](const Instruction &i) {return std::get<A_Type>(i);}) |
+                    transform([](const A_Type &i) { return i.value; });
+        for (const std::string_view sv : syms) {
+            symbols.insert(sv);
+        }
     }
 
     std::ostream &operator<<(std::ostream &os, const AST &obj) {
         os << "AST:\n";
         for (const auto &i : obj.listing) {
-            std::visit([&](auto e) { os << e << '\n'; }, i);
+            std::visit([&](auto e) { os << e.to_string(obj.symbols) << '\n'; }, i);
         }
         os << "Symbol Table:\n";
         os << obj.symbols;
@@ -73,9 +79,9 @@ namespace hackasm {
         std::vector<std::string> output{};
         for (const auto &i : listing) {
             std::visit([&](auto inst) {
-                std::string bin = inst.to_binary_format();
+                std::string bin = inst.to_binary_format(symbols);
                 if (bin.size() > 0) {
-                    output.push_back(inst.to_binary_format());
+                    output.push_back(bin);
                 }
             }, i);
         }

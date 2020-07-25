@@ -4,14 +4,7 @@
 
 #include "hackasm/SymbolTable.h"
 
-#include "hackasm/Instructions/A_Type.h"
-#include "hackasm/Instructions/L_Type.h"
-#include "hackasm/Instructions/C_Type.h"
-#include "hackasm/Instructions/Symbol.h"
-#include "hackasm/Instruction.h"
-
 #include <iostream>
-#include <variant>
 #include <utility>
 
 #include "ctre.hpp"
@@ -44,6 +37,90 @@ namespace hackasm {
         }
     }
 
+
+
+    void SymbolTable::insert_label(const std::string &s, int i) {
+        if (predefined.contains(s)) {
+            //It's a predefined symbol, do nothing
+            return;
+        }
+        if (labels.contains(s)) {
+            throw std::runtime_error("Label defined multiple times: " + s);
+        } else {
+            //It's a new label.  Erase it from symbols, if it exists
+            if (symbols.contains(s)) {
+                symbols.erase(s);
+                //Erasure happened. Symbols must be renumbered
+                renumber_symbols();
+            }
+            labels.emplace(s,i);
+        }
+    }
+
+    void SymbolTable::insert_label(std::string_view sv, int i) {
+        insert_label( std::string(sv), i);
+    }
+
+    void SymbolTable::insert(const std::string &s) {
+        if (is_integer_constant(s)) {
+            //Integer constants will be parsed on retrieval, don't store
+            return;
+        }
+        if (predefined.contains(s) || labels.contains(s) || symbols.contains(s)) {
+            //It's already known, do nothing
+            return;
+        }
+        static int auto_symbol_offset = 0x0010;
+        symbols.emplace(s, auto_symbol_offset++);
+    }
+
+    void SymbolTable::insert(std::string_view sv) {
+        insert( std::string(sv) );
+    }
+
+    void SymbolTable::renumber_symbols() {
+        //TODO: auto-detect offset by lowest value in map
+        int auto_symbol_offset = 0x0010;
+        for (auto& [k,v] : symbols) {
+            v = auto_symbol_offset++;
+        }
+    }
+
+    bool SymbolTable::is_integer_constant(const std::string &s) {
+        return ctre::match<R"(\d+)">(s);
+    }
+
+    bool SymbolTable::is_integer_constant(std::string_view sv) {
+        return ctre::match<R"(\d+)">(sv);
+    }
+
+    int SymbolTable::operator[](const std::string &s) const {
+        if (is_integer_constant(s)) {
+            return std::stoi(s);
+        }
+        if (predefined.find(s) != predefined.end()) {
+            return predefined.at(s);
+        }
+        if (labels.find(s) != labels.end()) {
+            return labels.at(s);
+        }
+        if (symbols.find(s) != symbols.end()) {
+            return symbols.at(s);
+        }
+        throw std::runtime_error("Bad symbol lookup: " + s);
+    }
+
+    int SymbolTable::operator[](std::string_view sv) const {
+        return operator[](std::string(sv));
+    }
+
+
+    /*
+    std::unordered_map<std::string, int> SymbolTable::get_labels() const {
+        return std::as_const(labels);
+    }
+    */
+
     std::ostream &operator<<(std::ostream &os, const SymbolTable &obj) {
         os << "Labels:\n";
         for (const auto&[key, val] : obj.labels) {
@@ -54,60 +131,5 @@ namespace hackasm {
             os << key << " = " << val << '\n';
         }
         return os;
-    }
-
-    void SymbolTable::insert_label(const Symbol &s) {
-        std::string temp(s.label);
-        if (predefined.find(temp) == predefined.end()) {
-            //TODO: verbosity setting
-            //std::cout << "Label found: " << s.label << " @ " << s.inst_loc << '\n';
-            labels.insert({temp, s.inst_loc});
-        }
-    }
-
-    void SymbolTable::reify(Instruction &i) {
-        struct Reifier {
-            SymbolTable &syms;
-
-            explicit Reifier(SymbolTable &s) : syms(s) {}
-
-            void operator()(A_Type &a) { syms.reify(a.s); }
-
-            void operator()(L_Type &l) { syms.reify(l.s); }
-
-            void operator()(C_Type &c) {}
-        };
-        std::visit(Reifier(*this), i);
-    }
-
-    void SymbolTable::reify(Symbol &s) {
-        //Is it an integer constant?
-        if (ctre::match<R"(\d+)">(s.label)) {
-            s.value = std::stoi(std::string{s.label});
-            return;
-        }
-        std::string temp(s.label);
-        if (predefined.find(temp) != predefined.end()) {
-            s.value = predefined.at(temp);
-            return;
-        }
-        if (labels.find(temp) != labels.end()) {
-            s.inst_loc = labels.at(temp);
-            s.value = labels.at(temp);
-            return;
-        }
-        if (symbols.find(temp) != symbols.end()) {
-            s.value = symbols.at(temp);
-        } else {
-            //it's unknown, insert it as an automatic symbol
-            symbols.insert({temp, auto_symbol_offset});
-            s.value = auto_symbol_offset;
-            //bump the offset for the next auto symbol
-            auto_symbol_offset++;
-        }
-    }
-
-    std::unordered_map<std::string, int> SymbolTable::get_labels() const {
-        return std::as_const(labels);
     }
 }

@@ -20,7 +20,8 @@ namespace hackasm {
         std::vector<Instruction> listing;
 
     public:
-        explicit AST(AsmFile);
+        //explicit AST(AsmFile);
+        explicit AST(std::istream&);
 
         [[nodiscard]] const AsmFile &get_asmfile() const;
 

@@ -12,7 +12,7 @@
 
 std::vector<std::string> asm_to_binary(const std::string &asm_filename) {
     std::ifstream file(asm_filename, std::ios::in);
-    hackasm::AST ast{hackasm::AsmFile(file)};
+    hackasm::AST ast{file};
     return ast.to_binary();
 }
 

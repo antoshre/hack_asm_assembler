@@ -8,6 +8,7 @@ set(LIB_SOURCES
         src/Instructions/A_Type.cpp
         src/Instructions/L_Type.cpp
         src/Instructions/C_Type.cpp
+        src/Instructions/B_Type.cpp
         )
 
 add_library(hack_assembler ${LIB_SOURCES})

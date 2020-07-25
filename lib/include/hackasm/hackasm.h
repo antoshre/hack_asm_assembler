@@ -16,7 +16,6 @@
 #include "Instructions/A_Type.h"
 #include "Instructions/L_Type.h"
 #include "Instructions/C_Type.h"
-#include "Instructions/Symbol.h"
 
 //string_utils.h intentionally excluded.  It's meant to be internal-only, not a public API
 

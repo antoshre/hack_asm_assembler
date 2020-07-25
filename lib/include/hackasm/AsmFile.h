@@ -17,7 +17,10 @@ namespace hackasm {
         std::vector<std::string> source;
         std::vector<AsmLine> instructions;
 
-        explicit AsmFile(std::istream &);
+        AsmFile(std::istream &);
+        AsmFile(const AsmFile&) = delete;
+        AsmFile& operator=(const AsmFile&) = delete;
+        AsmFile(AsmFile&&) = default;
 
         friend std::ostream &operator<<(std::ostream &, const AsmFile &);
     };

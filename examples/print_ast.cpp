@@ -8,13 +8,13 @@ using namespace hackasm;
 
 int main() {
 
-    std::ifstream file("../../examples/Add.asm", std::ios::in);
+    std::ifstream file("../../examples/Max.asm", std::ios::in);
     if (!file) {
         std::cerr << "Failed to open file.";
         return -1;
     }
 
-    AST ast{AsmFile(file)};
+    AST ast{file};
     std::cout << ast << '\n';
 
     auto binary = ast.to_binary();

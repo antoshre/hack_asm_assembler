@@ -2,9 +2,10 @@
 // Created by rob on 7/15/2020.
 //
 #include <bitset>
-
+#include <iostream>
 #include "hackasm/Instructions/C_Type.h"
 #include "hackasm/AsmLine.h"
+#include "hackasm/SymbolTable.h"
 #include "frozen/string.h"
 #include "frozen/unordered_map.h"
 #include "ctre.hpp"
@@ -12,13 +13,7 @@
 namespace hackasm {
 
     bool C_Type::identify(const AsmLine &l) {
-        if (ctre::match<R"(\S+=\S+)">(l.inst)) {
-            return true;
-        }
-        if (ctre::match<R"(\S+;\S+)">(l.inst)) {
-            return true;
-        }
-        return false;
+        return ctre::match<R"(\S+=\S+)">(l.inst);
     }
 
     C_Type::C_Type(const AsmLine &l) {
@@ -27,26 +22,14 @@ namespace hackasm {
         if (auto[m, d, c]=ctre::match<R"((\S+)=(\S+))">(l.inst); m) {
             dest_mnemonic = d;
             comp_mnemonic = c;
-            jump_mnemonic = "null";
             return;
         }
-        if (auto[m, c, j]=ctre::match<R"((\S+);(\S+))">(l.inst); m) {
-            dest_mnemonic = "null";
-            comp_mnemonic = c;
-            jump_mnemonic = j;
-            return;
-        }
-
         throw std::runtime_error("Cannot parse C-Type: " + l.inst);
     }
 
     std::ostream &operator<<(std::ostream &os, const C_Type &obj) {
         os << "C(";
-        if (obj.dest_mnemonic != "null") {
-            os << obj.dest_mnemonic << "=" << obj.comp_mnemonic;
-        } else {
-            os << obj.comp_mnemonic << " ; " << obj.jump_mnemonic;
-        }
+        os << obj.dest_mnemonic << "=" << obj.comp_mnemonic;
         os << ")";
         return os;
     }
@@ -122,13 +105,20 @@ namespace hackasm {
         }
     }
 
-    std::string C_Type::to_binary_format() const {
+    std::string C_Type::to_binary_format(const SymbolTable& _) const {
         std::bitset<16> bits(0xE000);
         auto dest = detail::dest(dest_mnemonic);
         auto comp = detail::comp(comp_mnemonic);
-        auto jump = detail::jump(jump_mnemonic);
-        bits |= dest | comp | jump;
+        bits |= dest | comp;
         return bits.to_string();
+    }
+
+    std::string C_Type::to_string() const {
+        return "C(" + std::string(dest_mnemonic) + "=" + std::string(comp_mnemonic) + ")";
+    }
+
+    std::string C_Type::to_string(const SymbolTable &syms) const {
+        return to_string();
     }
 
 }
