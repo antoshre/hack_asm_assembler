@@ -57,4 +57,12 @@ inline void decomment(std::string &s) {
     }
 }
 
+inline bool is_integer_constant(const std::string &s) {
+    return std::all_of(s.begin(), s.end(), [](const char c) { return isdigit(c);});
+}
+
+inline bool is_integer_constant(std::string_view sv) {
+    return std::all_of(sv.begin(), sv.end(), [](const char c) { return isdigit(c);});
+}
+
 #endif //HACK_ASSEMBLER_STRING_UTILS_H

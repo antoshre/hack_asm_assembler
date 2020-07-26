@@ -45,7 +45,8 @@ namespace hackasm {
             return;
         }
         if (labels.contains(s)) {
-            throw std::runtime_error("Label defined multiple times: " + s);
+            //throw std::runtime_error("Label defined multiple times: " + s);
+            return;
         } else {
             //It's a new label.  Erase it from symbols, if it exists
             if (symbols.contains(s)) {
@@ -86,18 +87,8 @@ namespace hackasm {
         }
     }
 
-    bool SymbolTable::is_integer_constant(const std::string &s) {
-        return ctre::match<R"(\d+)">(s);
-    }
-
-    bool SymbolTable::is_integer_constant(std::string_view sv) {
-        return ctre::match<R"(\d+)">(sv);
-    }
 
     int SymbolTable::operator[](const std::string &s) const {
-        if (is_integer_constant(s)) {
-            return std::stoi(s);
-        }
         if (predefined.find(s) != predefined.end()) {
             return predefined.at(s);
         }
@@ -106,6 +97,9 @@ namespace hackasm {
         }
         if (symbols.find(s) != symbols.end()) {
             return symbols.at(s);
+        }
+        if (is_integer_constant(s)) {
+            return std::stoi(s);
         }
         throw std::runtime_error("Bad symbol lookup: " + s);
     }

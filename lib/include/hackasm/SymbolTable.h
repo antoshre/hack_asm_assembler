@@ -6,6 +6,7 @@
 #define HACK_TO_CPP_SYMBOLTABLE_H
 
 #include "hackasm/Instruction.h"
+#include "hackasm/string_utils.h"
 
 #include <unordered_map>
 #include <map>
@@ -26,8 +27,7 @@ namespace hackasm {
         bool symbols_are_dirty = false;
         void renumber_symbols();
 
-        static bool is_integer_constant(const std::string&);
-        static bool is_integer_constant(std::string_view);
+
     public:
         //Set up predefined symbols table
         //TODO: use frozen map instead

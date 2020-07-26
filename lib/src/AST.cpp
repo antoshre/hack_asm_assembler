@@ -56,6 +56,20 @@ namespace hackasm {
             symbols.insert_label(sv, i);
         }
 
+        //Scan for jumps with an A-type beforehand with an integer constant
+        //Assume it's a label and insert it
+        //Skip first element so it-- is always valid
+        for(auto it = listing.begin()++; it != listing.end(); it++) {
+            auto before = it - 1;
+            if (std::holds_alternative<B_Type>(*it)) {
+                if (std::holds_alternative<A_Type>(*before)) {
+                    auto& ai = std::get<A_Type>(*before);
+                    if (is_integer_constant(ai.value)) {
+                        symbols.insert_label(ai.value, std::stoi( std::string(ai.value)));
+                    }
+                }
+            }
+        }
         auto syms = listing |
                     filter([](const Instruction &i) { return std::holds_alternative<A_Type>(i); }) |
                     transform([](const Instruction &i) {return std::get<A_Type>(i);}) |
