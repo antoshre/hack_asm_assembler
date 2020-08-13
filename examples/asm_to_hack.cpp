@@ -18,7 +18,7 @@ int main() {
         return -1;
     }
 
-    AST ast{AsmFile(file)};
+    AST ast{file};
     auto output = ast.to_binary();
     std::ofstream outfile("Add.hack", std::ios::out);
     for (const auto &line : output) {
