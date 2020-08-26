@@ -6,6 +6,7 @@
 #define HACK_TO_CPP_ASMLINE_H
 
 #include <string>
+#include <utility>
 
 namespace hackasm {
     struct AsmLine {
@@ -15,6 +16,8 @@ namespace hackasm {
         int inst_num;
         //The assembly line, stripped of excess whitespace and comments
         std::string inst;
+
+        AsmLine(int _l, int _i, std::string _ins) : line_num(_l), inst_num(_i), inst(std::move(_ins)) {}
     };
 }
 

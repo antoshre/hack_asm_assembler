@@ -46,6 +46,7 @@ namespace hackasm {
             trim_inplace(line);
 
             if (!line.empty()) {
+                //AsmLine l(count++, -1, line);
                 instructions.emplace_back(count++, -1, line);
             }
         }
