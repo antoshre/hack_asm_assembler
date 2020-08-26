@@ -16,3 +16,5 @@ add_library(hack_assembler ${LIB_SOURCES})
 target_link_libraries(hack_assembler PRIVATE frozen ctre)
 target_include_directories(hack_assembler PRIVATE src
         PUBLIC include)
+set_property(TARGET hack_assembler PROPERTY CXX_STANDARD 20)
+set_property(TARGET hack_assembler PROPERTY CXX_STANDARD_REQUIRED ON)
