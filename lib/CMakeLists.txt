@@ -13,13 +13,6 @@ set(LIB_SOURCES
 
 add_library(hack_assembler ${LIB_SOURCES})
 
-if (NOT TARGET ctre)
-    message(FATAL_ERROR "CTRE could not be found. Did the submodule get initialized?")
-endif ()
-if (NOT TARGET frozen)
-    message(FATAL_ERROR "Frozen not found. Did the submodule get initialized?")
-endif ()
-
 target_link_libraries(hack_assembler PRIVATE frozen ctre)
 target_include_directories(hack_assembler PRIVATE src
         PUBLIC include)

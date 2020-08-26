@@ -9,13 +9,6 @@
 #include <iterator>
 #include <fstream>
 
-#include <boost/range/adaptor/indexed.hpp>
-#include <boost/range/algorithm.hpp>
-#include <boost/range/adaptors.hpp>
-
-using namespace boost;
-
-
 namespace hackasm {
 
     AsmFile::AsmFile(std::istream &file) {
@@ -28,6 +21,7 @@ namespace hackasm {
             source.push_back(temp);
         }
 
+        /*
         //Fun with Boost ranges!
         auto ins = source |
                    adaptors::indexed() | //add source line numbers
@@ -43,9 +37,18 @@ namespace hackasm {
                    adaptors::transformed([](auto elem) {
                        return AsmLine{(int) elem.index(), -1, elem.value()};
                    });
-
         //copy range to instructions vector
-        boost::copy(ins, std::back_inserter(instructions));
+        //boost::copy(ins, std::back_inserter(instructions));
+        */
+        int count = 0;
+        for(std::string line : source) {
+            decomment(line);
+            trim_inplace(line);
+
+            if (!line.empty()) {
+                instructions.emplace_back(count++, -1, line);
+            }
+        }
 
         //Calulate correct instruction numbering
         //L-Types are not real and should be skipped
