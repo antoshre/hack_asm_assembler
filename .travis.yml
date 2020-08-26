@@ -15,6 +15,7 @@ jobs:
           sources:
             #- &precise_latest_boost_sources #Boost sources, needs testing
             - ubuntu-toolchain-r-test #repo with g++ packages
+            - sourceline: 'deb https://apt.kitware.com/ubuntu/ bionic main'
 
 script:
   ############################################################################
