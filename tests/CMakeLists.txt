@@ -10,7 +10,7 @@ target_link_libraries(file_comparison_tests hack_assembler)
 
 find_package(GTest)
 if (GTEST_FOUND)
-    target_link_libraries(all_tests ${GTEST_BOTH_LIBRARIES})
+    #Local GoogleTest package found
 else()
     message(STATUS "GTest package not found, pulling from remote")
     #Make GTest targets available
@@ -24,10 +24,8 @@ else()
     set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
     #Populate gtest gtest_main targets of googletest project
     FetchContent_MakeAvailable(googletest)
-
-    target_link_libraries(all_basic_tests gtest gtest_main)
-    target_link_libraries(file_comparison_tests gtest gtest_main)
 endif()
 
 
-
+target_link_libraries(all_basic_tests gtest gtest_main)
+target_link_libraries(file_comparison_tests gtest gtest_main)
