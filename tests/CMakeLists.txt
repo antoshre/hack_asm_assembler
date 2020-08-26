@@ -1,9 +1,12 @@
 cmake_minimum_required(VERSION 3.15)
 project(tests)
 
-set(CMAKE_CXX_FLAGS "--coverage")
-add_executable(all_tests string_utils.cpp atype.cpp ltype.cpp ctype.cpp btype.cpp compare_with_hack.cpp)
-target_link_libraries(all_tests hack_assembler gcov)
+#set(CMAKE_CXX_FLAGS "--coverage")
+add_executable(all_basic_tests string_utils.cpp atype.cpp ltype.cpp ctype.cpp btype.cpp)
+target_link_libraries(all_basic_tests hack_assembler)
+
+add_executable(file_comparison_tests compare_with_hack.cpp)
+target_link_libraries(file_comparison_tests hack_assembler)
 
 find_package(GTest)
 if (GTEST_FOUND)
@@ -22,7 +25,8 @@ else()
     #Populate gtest gtest_main targets of googletest project
     FetchContent_MakeAvailable(googletest)
 
-    target_link_libraries(all_tests gtest gtest_main)
+    target_link_libraries(all_basic_tests gtest gtest_main)
+    target_link_libraries(file_comparison_tests gtest gtest_main)
 endif()
 
 
