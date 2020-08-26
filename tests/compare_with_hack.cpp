@@ -30,7 +30,7 @@ TEST(Add, Test) {
     auto dut = asm_to_binary("../../examples/Add.asm");
     auto gold = read_file("../../examples/Add.hack");
     //If the line count doesn't match, fail immedediately.  Iterating over will likely cause OOB-access
-    ASSERT_TRUE(dut.size() == gold.size());
+    ASSERT_EQ(dut.size(), gold.size());
     //TODO: use std::ranges to get something like for(const auto& [line, comp] : zip(dut, gold))
     for (int i = 0; i < gold.size(); i++) {
         //Trimming required to handle impedance mismatch between system line endings.
@@ -43,7 +43,7 @@ TEST(Add, Test) {
 TEST(PongL, Test) {
     auto testee = asm_to_binary("../../examples/PongL.asm");
     auto gold = read_file("../../examples/PongL.hack");
-    ASSERT_TRUE(testee.size() == gold.size());
+    ASSERT_EQ(testee.size() , gold.size());
     for (int i = 0; i < gold.size(); i++) {
         ASSERT_EQ(trim(gold[i]), trim(testee[i])) << "Mismatch at line# " << i;
     }

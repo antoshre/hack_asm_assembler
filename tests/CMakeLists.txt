@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.15)
 project(tests)
 
+set(CMAKE_CXX_FLAGS "--coverage")
 add_executable(all_tests string_utils.cpp atype.cpp ltype.cpp ctype.cpp btype.cpp compare_with_hack.cpp)
-target_link_libraries(all_tests hack_assembler)
+target_link_libraries(all_tests hack_assembler gcov)
 
 find_package(GTest)
 if (GTEST_FOUND)

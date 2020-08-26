@@ -10,7 +10,14 @@ Status: Functionally complete.  Correctly assembles all 28,375 lines of `example
 
 ## Installation
 
-Clone the repo, grab the submodules with `git submodule update --init --recursive`
+```
+git clone https://github.com/antoshre/hack_asm_assembler.git
+cd hack_asm_assmbler
+mkdir build
+cd build
+cmake ..
+cmake --build .
+```
 
 ## Requirements 
 

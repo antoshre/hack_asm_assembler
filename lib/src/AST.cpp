@@ -80,7 +80,7 @@ namespace hackasm {
         for (const auto &i : listing) {
             std::visit([&](auto inst) {
                 std::string bin = inst.to_binary_format(symbols);
-                if (bin.size() > 0) {
+                if (!bin.empty()) {
                     output.push_back(bin);
                 }
             }, i);
