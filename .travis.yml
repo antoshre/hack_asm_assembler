@@ -1,5 +1,6 @@
 language: cpp
-dist=bionic
+os: linux
+dist: bionic
 
 jobs:
   include:
@@ -8,7 +9,7 @@ jobs:
       addons:
         apt:
           packages:
-            #- &precise_latest_boost_packages #Boost, needs testing
+            #- &precise_latest_boost_packages #Boost binary package, needs testing
             - g++-10
             - cmake
           sources:
