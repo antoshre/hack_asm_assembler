@@ -13,7 +13,7 @@ std::vector<std::string> real_ltypes = {
         "(LOOP)", "(END)", "(ball.move$if_false0)"
 };
 
-TEST(LTypeIdentify, Positive) {
+TEST(LType, PositiveIdentify) {
     //Should identify every string as an L-Type
     for (const auto &str : real_ltypes) {
         //construct fake AsmLine.  The values for line and inst loc don't matter for identification

@@ -11,10 +11,13 @@ set(LIB_SOURCES
         src/Instructions/B_Type.cpp
         )
 
-add_library(hack_assembler ${LIB_SOURCES})
+add_library(${PROJECT_NAME} ${LIB_SOURCES})
 
-target_link_libraries(hack_assembler PRIVATE frozen ctre)
-target_include_directories(hack_assembler PRIVATE src
+#Project requires C++17 for string_view and variant
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE frozen ctre)
+target_include_directories(${PROJECT_NAME} PRIVATE src
         PUBLIC include)
-set_property(TARGET hack_assembler PROPERTY CXX_STANDARD 20)
-set_property(TARGET hack_assembler PROPERTY CXX_STANDARD_REQUIRED ON)
+
+add_library(hack::assembler ALIAS ${PROJECT_NAME})

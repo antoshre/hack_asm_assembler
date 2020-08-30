@@ -3,15 +3,11 @@ project(tests)
 
 #set(CMAKE_CXX_FLAGS "--coverage")
 add_executable(all_basic_tests string_utils.cpp atype.cpp ltype.cpp ctype.cpp btype.cpp)
-target_link_libraries(all_basic_tests hack_assembler)
 
 add_executable(file_comparison_tests compare_with_hack.cpp)
-target_link_libraries(file_comparison_tests hack_assembler)
 
 find_package(GTest)
-if (GTEST_FOUND)
-    #Local GoogleTest package found
-else()
+if (NOT GTEST_FOUND)
     message(STATUS "GTest package not found, pulling from remote")
     #Make GTest targets available
     include(FetchContent)
@@ -27,5 +23,5 @@ else()
 endif()
 
 
-target_link_libraries(all_basic_tests gtest gtest_main)
-target_link_libraries(file_comparison_tests gtest gtest_main)
+target_link_libraries(all_basic_tests hack::assembler gtest gtest_main)
+target_link_libraries(file_comparison_tests hack::assembler gtest gtest_main)

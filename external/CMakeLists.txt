@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 project(external_deps)
 
 include(FetchContent)
+
 if (NOT TARGET frozen)
     FetchContent_Declare(
             frozen
@@ -16,4 +17,6 @@ if (NOT TARGET ctre)
             GIT_REPOSITORY https://github.com/hanickadot/compile-time-regular-expressions.git
     )
     FetchContent_MakeAvailable(ctre)
+    #CTRE requires C++20
+    target_compile_features(ctre INTERFACE cxx_std_20)
 endif()

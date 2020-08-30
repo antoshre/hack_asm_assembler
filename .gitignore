@@ -34,3 +34,6 @@
 #Exclude CLion project stuff
 .idea
 cmake-*
+
+#Exclude build* directories
+build*
