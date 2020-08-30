@@ -48,3 +48,4 @@ script:
   - cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON -DBUILD_EXAMPLES=OFF ..
   - cmake --build .
   - ./tests/all_basic_tests
+  - ./tests/compare_with_hack
