@@ -17,7 +17,8 @@ git clone https://github.com/antoshre/hack_asm_assembler.git
 cd hack_asm_assmbler
 mkdir build
 cd build
-cmake ..
+#Debug build with unit tests and examples
+cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON -DBUILD_EXAMPLES=ON ..
 cmake --build .
 ```
 
@@ -35,7 +36,7 @@ if (!file) {
     std::cerr << "Failed to open file.";
     return -1;
 }
-AST ast{AsmFile(file)};
+AST ast{file};
 std::cout << ast;
 
 auto binary = ast.to_binary();
